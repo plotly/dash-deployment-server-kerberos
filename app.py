@@ -26,7 +26,6 @@ app.layout = html.Div(className='container', children=[
     Header('Sample App'),
 
     dash_enterprise_auth.create_logout_button(
-        id='logout-btn',
         label='Logout'),
 
     Row([
