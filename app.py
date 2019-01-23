@@ -8,18 +8,16 @@ import dash
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_enterprise_auth
 
 from components import Column, Header, Row
 import config
-from auth import auth
 from utils import StaticUrlPath
 
 
 app = dash.Dash(
     __name__,
 )
-dash_auth = auth(app)
-
 server = app.server  # Expose the server variable for deployments
 
 # Standard Dash app code below
@@ -27,8 +25,7 @@ app.layout = html.Div(className='container', children=[
 
     Header('Sample App'),
 
-    dash_auth.create_logout_button(
-        id='logout-btn',
+    dash_enterprise_auth.create_logout_button(
         label='Logout'),
 
     Row([
@@ -48,7 +45,7 @@ app.layout = html.Div(className='container', children=[
 
 @contextmanager
 def kerberos_auth():
-    ticket_cache = dash_auth.get_kerberos_ticket_cache()
+    ticket_cache = dash_enterprise_auth.get_kerberos_ticket_cache()
 
     # Remove group and other permissions for the ccache file:
     os.umask(0o077)
